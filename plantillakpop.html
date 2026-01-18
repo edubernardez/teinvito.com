@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Fiesta K-Pop — Las Guerreras Huntrix</title>
+  <meta name="theme-color" content="#ff00cc">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Orbitron:wght@500;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+  <style>
+    :root {
+      --neon-pink: #ff00cc;
+      --neon-blue: #00f3ff;
+      --neon-purple: #bd00ff;
+      --bg-dark: #090014;
+      
+      --font-title: 'Orbitron', sans-serif;
+      --font-sub: 'Audiowide', cursive;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    
+    body {
+      margin: 0;
+      background-color: var(--bg-dark);
+      color: white;
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      /* Fondo estilo escenario Kpop */
+      background-image: 
+        linear-gradient(to bottom, rgba(9,0,20,0.9), rgba(9,0,20,1)),
+        url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');
+      background-size: cover;
+      background-attachment: fixed;
+    }
+
+    /* LUCES DE ESCENARIO (Animación CSS) */
+    .spotlight {
+      position: fixed; top: -50%; left: 50%; width: 200px; height: 100vh;
+      background: linear-gradient(to bottom, rgba(255,0,204,0.3), transparent);
+      transform-origin: top center;
+      animation: rotateLight 4s ease-in-out infinite alternate;
+      z-index: 0; pointer-events: none; filter: blur(20px);
+    }
+    .spotlight:nth-child(2) { animation-delay: -2s; background: linear-gradient(to bottom, rgba(0,243,255,0.3), transparent); left: 30%; }
+    @keyframes rotateLight { 0% { transform: rotate(-25deg); } 100% { transform: rotate(25deg); } }
+
+    .wrap { max-width: 500px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 2; }
+
+    /* TEXTOS */
+    h1 { 
+      font-family: var(--font-title); font-size: 2.5rem; text-transform: uppercase; margin: 0; line-height: 1;
+      background: linear-gradient(90deg, #fff, var(--neon-pink), var(--neon-blue));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 20px rgba(255,0,204,0.5);
+      text-align: center; letter-spacing: 2px;
+    }
+    .kpop-badge {
+      display: inline-block; background: white; color: black; padding: 4px 12px; font-weight: 900;
+      transform: skewX(-10deg); font-family: var(--font-title); font-size: 0.8rem; margin-bottom: 10px;
+    }
+
+    /* CARD HOLOGRÁFICA */
+    .idol-card-wrap {
+      width: 300px; height: 450px; margin: 30px auto; perspective: 1000px;
+    }
+    .idol-card {
+      width: 100%; height: 100%; position: relative; transform-style: preserve-3d;
+      border-radius: 20px;
+      /* FOTO DEL GRUPO HUNTRIX (Imagen promocional estilo fan art/oficial) */
+      background: url('https://i.pinimg.com/736x/8a/8d/8a/8a8d8a7c8e8d8a7c8e8d8a7c8e8d8a7c.jpg') center/cover; 
+      /* Nota: Si el link falla, usar placeholder. He puesto uno genérico Kpop abajo por seguridad */
+      background-image: url('https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/9b4070108696803.5fc3d9c79e6c4.jpg'); /* Placeholder estilo Huntrix */
+      
+      box-shadow: 0 0 30px var(--neon-purple), 0 0 10px white;
+      border: 2px solid rgba(255,255,255,0.5);
+      animation: float 4s ease-in-out infinite;
+    }
+    /* Efecto Holográfico (Brillo arcoiris) */
+    .holo-overlay {
+      position: absolute; inset: 0; border-radius: 20px; opacity: 0.3;
+      background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.4) 50%, transparent 60%);
+      background-size: 200% 200%;
+      animation: holo 3s linear infinite; pointer-events: none;
+    }
+    @keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-15px);} }
+    @keyframes holo { 0%{background-position: 100% 100%;} 100%{background-position: 0% 0%;} }
+
+    /* MUSIC PLAYER (Saja Boys Style) */
+    .player {
+      background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding: 15px; border-radius: 15px;
+      border: 1px solid rgba(255,255,255,0.2); margin-top: -30px; position: relative; z-index: 10;
+      display: flex; align-items: center; gap: 15px;
+    }
+    .play-btn {
+      width: 45px; height: 45px; border-radius: 50%; background: var(--neon-blue); border: none;
+      display: grid; place-items: center; cursor: pointer; color: black; font-size: 1.2rem;
+      box-shadow: 0 0 15px var(--neon-blue);
+    }
+    .track-info div { line-height: 1.2; }
+    .track-title { font-weight: bold; font-family: var(--font-sub); color: var(--neon-pink); }
+    .track-artist { font-size: 0.8rem; opacity: 0.8; }
+    
+    /* BARS ANIMATION (Visualizer) */
+    .bars { display: flex; gap: 3px; height: 20px; align-items: flex-end; }
+    .bar { width: 4px; background: white; animation: sound 0.5s infinite alternate; }
+    .bar:nth-child(2) { animation-delay: 0.1s; }
+    .bar:nth-child(3) { animation-delay: 0.2s; }
+    @keyframes sound { 0% { height: 5px; } 100% { height: 100%; } }
+
+    /* BOTÓN CTA */
+    .btn {
+      display: block; width: 100%; padding: 18px; border-radius: 0; 
+      background: transparent; color: white; border: 2px solid var(--neon-blue);
+      text-transform: uppercase; font-family: var(--font-title); font-weight: 900; letter-spacing: 2px;
+      cursor: pointer; position: relative; overflow: hidden; margin-top: 30px; text-decoration: none; text-align: center;
+    }
+    .btn::before {
+      content:''; position: absolute; top:0; left:-100%; width:100%; height:100%;
+      background: var(--neon-blue); transition: 0.3s; z-index: -1;
+    }
+    .btn:hover::before { left:0; }
+    .btn:hover { color: black; box-shadow: 0 0 30px var(--neon-blue); }
+
+    /* DETALLES */
+    .ticket-stub {
+      background: white; color: black; padding: 20px; margin-top: 30px;
+      clip-path: polygon(0 0, 100% 0, 100% 90%, 95% 100%, 5% 100%, 0 90%);
+      text-align: center;
+    }
+    .ticket-label { font-size: 0.7rem; color: #666; text-transform: uppercase; letter-spacing: 1px; }
+    .ticket-val { font-family: var(--font-title); font-size: 1.2rem; font-weight: 900; margin-bottom: 10px; }
+
+    /* FORMULARIO */
+    .neon-input {
+      width: 100%; background: transparent; border: none; border-bottom: 2px solid var(--neon-pink);
+      color: white; padding: 10px; margin-bottom: 20px; font-family: var(--font-sub); font-size: 1.1rem;
+    }
+    .neon-input:focus { outline: none; border-bottom-color: var(--neon-blue); box-shadow: 0 10px 10px -10px var(--neon-blue); }
+
+    /* STICKERS */
+    .sticker-saja { position: absolute; top: -20px; right: -20px; width: 100px; transform: rotate(15deg); z-index: 20; }
+  </style>
+</head>
+<body>
+
+  <div class="spotlight"></div>
+  <div class="spotlight"></div>
+
+  <main class="wrap">
+    
+    <div style="text-align:center; padding-top:40px;">
+      <span class="kpop-badge">NETFLIX PARTY</span>
+      <div style="font-family:var(--font-sub); font-size:1.2rem; margin-bottom:5px;">WORLD TOUR 2023</div>
+      <h1>CUMPLE<br>GUERRERO</h1>
+    </div>
+
+    <div class="idol-card-wrap">
+      <div class="idol-card">
+        <div class="holo-overlay"></div>
+        
+        <img src="https://cdn-icons-png.flaticon.com/512/7650/7650393.png" style="position:absolute; bottom:20px; left:20px; width:50px; filter:invert(1);" alt="Lightstick">
+        
+        <div style="position:absolute; bottom:20px; right:20px; text-align:right; text-shadow:0 2px 4px black;">
+          <div style="font-family:var(--font-title); font-size:1.5rem; color:var(--neon-blue);">VALENTINA</div>
+          <div style="font-size:0.9rem;">MAIN VOCAL / LEADER</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="player">
+      <button class="play-btn" onclick="toggleMusic()">▶</button>
+      <div class="track-info">
+        <div class="track-title">Soda Pop (Love Ver.)</div>
+        <div class="track-artist">Saja Boys • <span style="color:var(--neon-blue)">Now Playing</span></div>
+      </div>
+      <div class="bars" id="visualizer" style="opacity:0; margin-left:auto;">
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+      </div>
+      <div style="position:absolute; top:-15px; right:-10px; background:var(--neon-pink); color:white; font-size:0.7rem; padding:4px; transform:rotate(10deg); font-weight:bold;">HIT!</div>
+    </div>
+
+    <div class="ticket-stub">
+      <div style="border: 2px dashed #000; padding:15px;">
+        <div class="ticket-label">FECHA DEL DEBUT</div>
+        <div class="ticket-val">SÁBADO 14 OCTUBRE</div>
+        
+        <div class="ticket-label">ESTADIO (LUGAR)</div>
+        <div class="ticket-val">SALÓN "HUNTRIX ZONE"</div>
+        
+        <div class="ticket-label">HORARIO SHOW</div>
+        <div class="ticket-val">18:00 - 22:00 HRS</div>
+        
+        <div style="margin-top:15px; font-size:0.8rem;">
+          ⚠️ ADVERTENCIA: Acceso exclusivo. Trae tu lightstick y tu mejor outfit.
+        </div>
+      </div>
+    </div>
+
+    <section style="margin: 40px 0;">
+      <h2 style="text-align:center; font-family:var(--font-title); color:var(--neon-pink);">FAN MEETING RSVP</h2>
+      <form id="rsvpForm">
+        <input class="neon-input" id="name" type="text" placeholder="Nombre del Fan (Invitado)" required>
+        <input class="neon-input" id="bias" type="text" placeholder="¿Quién es tu bias? (Opcional)">
+        
+        <button type="submit" class="btn">CONFIRMAR ASISTENCIA</button>
+      </form>
+    </section>
+
+  </main>
+
+  <script>
+    // --- Simulación de Música ---
+    let isPlaying = false;
+    const visualizer = document.getElementById('visualizer');
+    
+    function toggleMusic() {
+      // En una versión real, aquí iría un new Audio('sodapop.mp3').play();
+      // Como no tenemos el MP3 real hosteado, simulamos la UI visual
+      isPlaying = !isPlaying;
+      const btn = document.querySelector('.play-btn');
+      
+      if(isPlaying) {
+        btn.innerHTML = '⏸';
+        visualizer.style.opacity = '1';
+        // Simular que suena "Eres mi Soda Pop..."
+        alert("🎵 [Suena en tu mente]: 'Eres mi Soda Pop, eres mi delirio...' 🎵");
+      } else {
+        btn.innerHTML = '▶';
+        visualizer.style.opacity = '0';
+      }
+    }
+
+    // --- WhatsApp ---
+    document.getElementById('rsvpForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const n = document.getElementById('name').value;
+      const b = document.getElementById('bias').value;
+      
+      const msg = `🎤 ¡Hola! Confirmo mi asistencia al World Tour de Valentina.%0A%0A👤 *Fan:* ${n}%0A🦁 *Bias:* ${b || "Todos"}%0A%0A¡Ahí estaré!`;
+      window.open(`https://wa.me/59899000000?text=${msg}`, '_blank');
+    });
+  </script>
+
+</body>
+</html>

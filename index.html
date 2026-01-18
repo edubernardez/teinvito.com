@@ -155,9 +155,11 @@
     }
     .template-tag {
       position: absolute; top: 10px; right: 10px; padding: 4px 10px;
-      background: rgba(0,0,0,0.7); color: white; font-size: 0.75rem; border-radius: 20px; font-weight: 700;
+      color: white; font-size: 0.75rem; border-radius: 20px; font-weight: 700;
       backdrop-filter: blur(4px);
     }
+    .tag-trend { background: linear-gradient(90deg, #ff00cc, #bd00ff); }
+    .tag-new { background: rgba(0,0,0,0.7); }
 
     /* Form Section */
     .contact-split { display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; padding-bottom: 80px; }
@@ -244,15 +246,21 @@
       <div class="grid-3">
         
         <div class="glass-panel feature-card" style="border: 1px solid rgba(255, 215, 0, 0.4);">
-          <div class="template-thumb" style="background-image: url('https://i.pinimg.com/originals/a7/3d/70/a73d702b0131a68b34af89f79422dc67.jpg');">
-            <span class="template-tag">NUEVO</span>
+          <div class="template-thumb" style="background-image: url('https://w0.peakpx.com/wallpaper/484/936/HD-wallpaper-disney-castle-blue-castle-disney-fantasy-logo-magic-walt-disney-thumbnail.jpg');">
+            <span class="template-tag tag-new">CLÁSICO</span>
           </div>
           <h3 style="color: #ffd700;">Mundo Mágico</h3>
           <p>Ideal para cumples infantiles. Incluye castillo, animaciones de Mickey y efectos de magia.</p>
-          
-          <a href="plantilladisney.html" target="_blank" class="btn btn-primary" style="width:100%; justify-content:center; background: linear-gradient(135deg, #ffd700, #ff3366); color:white; border:none;">
-            Ver Demo en Vivo ➝
-          </a>
+          <a href="plantilladisney.html" target="_blank" class="btn btn-outline" style="width:100%; justify-content:center;">Ver Demo ➝</a>
+        </div>
+
+        <div class="glass-panel feature-card" style="border: 1px solid #ff00cc;">
+          <div class="template-thumb" style="background-image: url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
+            <span class="template-tag tag-trend">TENDENCIA</span>
+          </div>
+          <h3 style="color: #ff00cc;">K-Pop Warriors</h3>
+          <p>Estética Neón y "Girl Crush" inspirada en Netflix. Luces, música (Saja Boys) y Tickets VIP.</p>
+          <a href="plantillakpop.html" target="_blank" class="btn btn-primary" style="width:100%; justify-content:center; background: linear-gradient(90deg, #ff00cc, #bd00ff); border:none; color:white;">Ver Demo ➝</a>
         </div>
 
         <div class="glass-panel feature-card">
@@ -261,15 +269,6 @@
           </div>
           <h3>Noche de Gala</h3>
           <p>Perfecto para 15 años o bodas. Estilo minimalista, tipografía fina y colores sobrios.</p>
-          <button class="btn btn-outline" style="width:100%; justify-content:center; opacity:0.5; cursor:not-allowed;">Próximamente</button>
-        </div>
-
-        <div class="glass-panel feature-card">
-          <div class="template-thumb" style="background-image: url('https://images.unsplash.com/photo-1530103862676-de3c9a59af57?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
-            <span class="template-tag">Fiesta</span>
-          </div>
-          <h3>Neon Party</h3>
-          <p>Para eventos nocturnos. Colores vibrantes, música de fondo y efectos glitch.</p>
           <button class="btn btn-outline" style="width:100%; justify-content:center; opacity:0.5; cursor:not-allowed;">Próximamente</button>
         </div>
 

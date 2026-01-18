@@ -4,237 +4,187 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Cumpleaños Mágico — Invitación Disney</title>
-  <meta name="theme-color" content="#0a0e29">
+  <meta name="theme-color" content="#1a1b4b">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Mouse+Memoirs&family=Fredoka:wght@400;600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
   <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
     :root {
-      /* PALETA DISNEY */
-      --bg-dark: #120d31; 
-      --bg-card: rgba(255, 255, 255, 0.1);
+      --bg-dark: #1a1b4b; 
+      --disney-red: #e11d2e;
+      --disney-black: #000000;
+      --disney-gold: #fca311;
       
-      --disney-red: #ff334b;
-      --disney-black: #111111;
-      --disney-yellow: #ffcc00;
-      --disney-blue: #33aaff;
-
-      --font-fun: 'Fredoka', sans-serif;
+      --font-title: 'Mouse Memoirs', sans-serif; /* Tipografía estilo Mickey */
       --font-body: 'Inter', sans-serif;
     }
 
-    /* Base */
-    *, *::before, *::after { box-sizing: border-box; }
+    * { box-sizing: border-box; }
     
     body {
       margin: 0;
       background-color: var(--bg-dark);
-      /* Fondo Mágico Estrellado */
-      background-image: 
-        radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
-        radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
-        linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
-      background-size: 550px 550px, 350px 350px, 100% 100%;
-      background-position: 0 0, 40px 60px, 0 0;
+      /* Fondo Oscuro Mágico con degradado */
+      background: radial-gradient(circle at 50% 20%, #2e308e, #0a0a23);
       color: white;
       font-family: var(--font-body);
       overflow-x: hidden;
     }
 
-    .wrap { max-width: 600px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 2; }
-    h1, h2, h3 { font-family: var(--font-fun); letter-spacing: 0.5px; }
+    /* Partículas mágicas de fondo (CSS puro) */
+    .stars {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;
+      background-image: 
+        radial-gradient(white 1px, transparent 1px),
+        radial-gradient(rgba(255,255,255,0.5) 2px, transparent 2px);
+      background-size: 50px 50px, 120px 120px;
+      opacity: 0.3; z-index: 0;
+    }
+
+    .wrap { max-width: 500px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 2; }
+
+    /* TIPOGRAFÍA */
+    h1 { font-family: var(--font-title); font-size: 3.8rem; margin: 0; line-height: 0.9; text-shadow: 0 4px 0 #000; letter-spacing: 2px; }
+    h2 { font-family: var(--font-title); font-size: 2.2rem; letter-spacing: 1px; margin-bottom: 15px; }
     
-    /* Botón Mágico */
+    /* BOTÓN */
     .btn {
-      display: inline-block; padding: 14px 28px; border-radius: 50px;
-      font-family: var(--font-fun); font-size: 1.1rem; text-decoration: none; border: none; cursor: pointer;
-      background: linear-gradient(180deg, var(--disney-yellow), #ff9900);
-      color: var(--disney-black); box-shadow: 0 6px 0 #cc7a00, 0 15px 20px rgba(0,0,0,0.4);
-      transition: transform 0.1s, box-shadow 0.1s;
+      display: block; width: 100%; padding: 16px; border-radius: 50px; text-align: center;
+      font-family: var(--font-title); font-size: 1.5rem; text-decoration: none; border: none; cursor: pointer;
+      background: linear-gradient(to bottom, #ffcc00, #ff9900);
+      color: black; text-transform: uppercase;
+      box-shadow: 0 5px 0 #cc7a00, 0 15px 20px rgba(0,0,0,0.3);
+      transition: all 0.1s;
     }
-    .btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #cc7a00, 0 4px 10px rgba(0,0,0,0.3); }
+    .btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #cc7a00; }
 
-    /* HERO */
-    .hero { text-align: center; padding-top: 40px; min-height: 90vh; display:flex; flex-direction:column; align-items:center; }
-    .hero-ears {
-      width: 100px; height: 100px; margin: 0 auto 10px;
-      background: black; border-radius: 50%; position: relative;
-      box-shadow: 0 0 30px var(--disney-blue);
-    }
-    .hero-ears::before, .hero-ears::after {
-      content:''; position: absolute; top: -30px; width: 60px; height: 60px; background: black; border-radius: 50%;
-    }
-    .hero-ears::before { left: -20px; }
-    .hero-ears::after { right: -20px; }
+    /* HERO & TARJETA */
+    .hero { text-align: center; padding-top: 30px; min-height: 85vh; display: flex; flex-direction: column; align-items: center; }
     
-    h1 { font-size: 3rem; margin: 10px 0; text-shadow: 0 5px 15px rgba(0,0,0,0.5); }
-    .subtitle { color: var(--disney-yellow); font-size: 1.2rem; margin-bottom: 30px; }
+    .logo-img { width: 100px; margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.5)); }
 
-    /* TARJETA 3D CON PERSONAJES */
-    .card-container { perspective: 1000px; width: 300px; height: 420px; margin: 20px auto 40px; }
-    .card {
-      width: 100%; height: 100%; position: relative; transform-style: preserve-3d;
-      border-radius: 20px;
-      background: url('https://w0.peakpx.com/wallpaper/484/936/HD-wallpaper-disney-castle-blue-castle-disney-fantasy-logo-magic-walt-disney-thumbnail.jpg') center/cover;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-      border: 4px solid var(--disney-yellow);
-      animation: floatCard 6s ease-in-out infinite;
+    .card-3d-wrap {
+      width: 280px; height: 400px; perspective: 1000px; margin: 20px auto 40px; position: relative;
     }
-    @keyframes floatCard { 0%, 100% { transform: translateY(0) rotateY(0); } 50% { transform: translateY(-15px) rotateY(5deg); } }
+    .card-3d {
+      width: 100%; height: 100%; transform-style: preserve-3d;
+      border-radius: 24px;
+      /* FOTO REAL DEL CASTILLO */
+      background: url('https://images.unsplash.com/photo-1597466599360-3b9775841aec?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80') center/cover;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+      border: 3px solid rgba(255, 215, 0, 0.5);
+      animation: float 6s ease-in-out infinite;
+    }
+    .card-content {
+      position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent 60%);
+      border-radius: 24px; display: flex; flex-direction: column; justify-content: flex-end; padding: 20px;
+    }
+    @keyframes float { 0%,100% {transform: translateY(0) rotateY(0);} 50% {transform: translateY(-10px) rotateY(4deg);} }
 
-    /* PERSONAJES FLOTANTES (PNGs) */
-    .char-float { position: absolute; z-index: 10; width: 140px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); pointer-events: none;}
-    .mickey { bottom: -20px; right: -30px; width: 160px; }
-    .minnie { bottom: -20px; left: -30px; width: 150px; }
+    /* STICKERS FLOTANTES */
+    .sticker { position: absolute; z-index: 10; width: 140px; filter: drop-shadow(0 8px 15px rgba(0,0,0,0.4)); }
+    .mickey-main { top: -40px; right: -40px; width: 160px; animation: float 7s ease-in-out infinite reverse; }
 
-    /* SECCIÓN AMIGOS */
-    .friends-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 40px 0;
+    /* JUEGO DE MEMORIA (IMÁGENES) */
+    .game-area {
+      background: rgba(255,255,255,0.1); border-radius: 20px; padding: 20px; border: 2px dashed rgba(255,255,255,0.2);
     }
-    .friend { text-align: center; }
-    .friend-img {
-      width: 70px; height: 70px; border-radius: 50%; background: white; margin: 0 auto;
-      border: 3px solid var(--disney-yellow); overflow: hidden;
-      display: grid; place-items: center;
+    .game-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 20px; }
+    .mem-card {
+      aspect-ratio: 1; position: relative; transform-style: preserve-3d; transition: transform 0.5s; cursor: pointer;
     }
-    .friend-img img { width: 90%; height: auto; }
-    .friend p { font-size: 0.8rem; margin-top: 5px; font-weight: bold; }
-
-    /* --- JUEGO DE MEMORIA --- */
-    .game-section {
-      background: rgba(255,255,255,0.1); border-radius: 20px; padding: 20px; margin: 40px 0;
-      border: 2px dashed rgba(255,255,255,0.3); text-align: center;
-    }
-    .game-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 20px;
-    }
-    .memory-card {
-      aspect-ratio: 1; background: var(--disney-red); border-radius: 8px; cursor: pointer;
-      display: grid; place-items: center; font-size: 2rem; position: relative;
-      transform-style: preserve-3d; transition: transform 0.4s;
-    }
-    .memory-card.flipped { transform: rotateY(180deg); background: white; }
+    .mem-card.flipped { transform: rotateY(180deg); }
     
-    .front, .back { position: absolute; backface-visibility: hidden; }
-    .back { color: white; font-size: 1.5rem; transform: rotateY(0); } /* Mickey logo */
-    .front { transform: rotateY(180deg); } /* Emoji */
+    .face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 8px; display: grid; place-items: center; overflow: hidden;}
+    .face.front { background: var(--disney-red); border: 2px solid white; } /* Parte de atrás (Roja con logo) */
+    .face.back { background: white; transform: rotateY(180deg); } /* La foto */
+    .face.back img { width: 100%; height: 100%; object-fit: cover; }
+    
+    .mickey-shape { width: 60%; opacity: 0.5; filter: brightness(0) invert(1); } /* Silueta Mickey CSS/SVG */
 
-    /* FORMULARIO */
-    .glass-form {
-      background: rgba(0,0,0,0.4); padding: 30px; border-radius: 20px; backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    input, textarea {
-      width: 100%; background: rgba(255,255,255,0.9); border: none; padding: 15px;
-      margin-bottom: 15px; border-radius: 10px; font-family: var(--font-body);
-    }
+    /* FORMULARIO & DETALLES */
+    .glass-box { background: rgba(0,0,0,0.6); padding: 24px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.15); backdrop-filter: blur(10px); margin-bottom: 20px;}
+    input, textarea { width: 100%; padding: 14px; background: rgba(255,255,255,0.9); border:none; border-radius: 12px; margin-bottom: 12px; font-family: sans-serif; }
 
-    /* DETALLES */
-    .details-box {
-      background: white; color: #111; padding: 20px; border-radius: 15px; margin-bottom: 15px;
-      display: flex; align-items: center; gap: 15px; text-align: left;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    }
-    .icon { font-size: 1.8rem; background: var(--disney-blue); color: white; width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center; flex-shrink: 0; }
+    .detail-row { display: flex; gap: 15px; margin-bottom: 20px; align-items: center; text-align: left; }
+    .d-icon { width: 50px; height: 50px; background: var(--disney-red); border-radius: 50%; display: grid; place-items: center; font-size: 1.5rem; flex-shrink: 0; box-shadow: 0 0 15px var(--disney-red); }
   </style>
 </head>
 <body>
 
-  <div style="position:fixed; inset:0; z-index:0; pointer-events:none; opacity:0.4;">
-    <lottie-player src="https://lottie.host/35190465-1410-4216-8310-606659748713/P8S8s6s2s0.json" background="transparent" speed="0.5" loop autoplay style="width:100%; height:100%"></lottie-player>
-  </div>
+  <div class="stars"></div>
 
   <main class="wrap">
     
     <section class="hero">
-      <div class="hero-ears"></div> <div class="subtitle">¡Estás invitado a un día mágico!</div>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg" class="logo-img" alt="Disney Style">
       
-      <h1>Cumpleaños<br><span style="color:var(--disney-red)">Valentina</span></h1>
-      <p style="font-size:1.2rem;">Cumplo 5 Años</p>
+      <p style="text-transform:uppercase; letter-spacing:2px; font-size:0.8rem; margin:0; opacity:0.8;">Te invita al cumpleaños de</p>
+      <h1>Valentina</h1>
+      <div style="font-family: 'Fredoka'; font-size:1.4rem; color: var(--disney-gold); margin-top:-10px;">¡Mis 5 Años!</div>
 
-      <div class="card-container">
-        <div class="card">
-           <img src="https://upload.wikimedia.org/wikipedia/en/d/d4/Mickey_Mouse.png" class="char-float mickey" alt="Mickey">
-           <img src="https://upload.wikimedia.org/wikipedia/en/6/67/Minnie_Mouse.png" class="char-float minnie" alt="Minnie">
+      <div class="card-3d-wrap">
+        <div class="card-3d">
+           <img src="https://upload.wikimedia.org/wikipedia/en/d/d4/Mickey_Mouse.png" class="sticker mickey-main" alt="Mickey">
            
-           <div style="position:absolute; top:20px; left:0; right:0; text-align:center; text-shadow:0 2px 4px black;">
-             <h2 style="margin:0; font-size:2rem; color:white;">14 OCT</h2>
-             <p style="margin:0; font-weight:bold;">17:00 HRS</p>
+           <div class="card-content">
+             <h2 style="margin:0; text-shadow:0 2px 4px black;">14 DE OCTUBRE</h2>
+             <p style="margin:0; font-weight:600;">Salón Magic Kingdom</p>
            </div>
         </div>
       </div>
 
-      <a href="#juego" class="btn">¡Jugar para desbloquear!</a>
+      <a href="#juego" class="btn">¡Abrir Invitación!</a>
+    </section>
+
+    <section id="juego" style="padding: 40px 0;">
+      <div class="game-area">
+        <h2 style="margin:0; color:var(--disney-gold);">Encuentra las Parejas</h2>
+        <p style="font-size:0.9rem; opacity:0.8;">Toca las cartas para ver a los personajes.</p>
+        
+        <div class="game-grid" id="gameGrid">
+          </div>
+        <div id="winMessage" style="display:none; margin-top:15px; font-weight:bold; color:#4ade80;">¡GENIAL! HAS GANADO 🎉</div>
+      </div>
     </section>
 
     <section>
-      <h2 style="text-align:center; color:var(--disney-yellow)">Invitados Especiales</h2>
-      <div class="friends-grid">
-        <div class="friend">
-          <div class="friend-img"><img src="https://upload.wikimedia.org/wikipedia/en/d/d4/Mickey_Mouse.png" alt="Mickey"></div>
-          <p>Mickey</p>
+      <div class="glass-box">
+        <h2 style="text-align:center; margin-top:0;">Detalles Mágicos</h2>
+        
+        <div class="detail-row">
+          <div class="d-icon">🏰</div>
+          <div>
+            <strong style="color:var(--disney-gold)">Lugar</strong>
+            <div style="font-size:0.9rem">Salón "El Reino", Calle Fantasía 123.</div>
+          </div>
         </div>
-        <div class="friend">
-          <div class="friend-img"><img src="https://upload.wikimedia.org/wikipedia/en/6/67/Minnie_Mouse.png" alt="Minnie"></div>
-          <p>Minnie</p>
+
+        <div class="detail-row">
+          <div class="d-icon">⏰</div>
+          <div>
+            <strong style="color:var(--disney-gold)">Hora</strong>
+            <div style="font-size:0.9rem">Sábado 14 Oct, de 16:00 a 20:00 hs.</div>
+          </div>
         </div>
-        <div class="friend">
-          <div class="friend-img"><img src="https://upload.wikimedia.org/wikipedia/en/a/a5/Donald_Duck.png" alt="Donald"></div>
-          <p>Donald</p>
-        </div>
-        <div class="friend">
-          <div class="friend-img"><img src="https://upload.wikimedia.org/wikipedia/en/a/a6/Goofy.svg" alt="Goofy"></div>
-          <p>Goofy</p>
-        </div>
+        
+        <div style="text-align:center; font-size:0.85rem; opacity:0.7;">¡No olvides traer tu disfraz!</div>
       </div>
     </section>
 
-    <section id="juego" class="game-section">
-      <h2 style="margin-top:0;">🎮 Misión Mágica</h2>
-      <p>Encuentra los pares para que empiece la fiesta.</p>
-      
-      <div class="game-grid" id="gameBoard">
-        </div>
-      
-      <p id="winMsg" style="display:none; color:var(--disney-yellow); font-weight:bold; margin-top:15px;">¡GANASTE! ✨ La magia está lista.</p>
-    </section>
-
-    <section id="info" style="margin-top:40px;">
-      <h2 style="text-align:center; margin-bottom:20px;">Detalles del Evento</h2>
-      
-      <div class="details-box">
-        <div class="icon">📅</div>
-        <div>
-          <strong>¿Cuándo?</strong><br>Sábado 14 de Octubre<br>De 17:00 a 20:00 hs
-        </div>
-      </div>
-
-      <div class="details-box">
-        <div class="icon">🏰</div>
-        <div>
-          <strong>¿Dónde?</strong><br>Salón "El Castillo Encantado"<br>Calle Disney 123
-          <a href="#" style="color:var(--disney-blue); display:block; font-size:0.9rem;">Ver mapa</a>
-        </div>
-      </div>
-    </section>
-
-    <section id="rsvp" style="padding-bottom:60px; margin-top:40px;">
-      <h2 style="text-align:center; color:var(--disney-red)">Confirma tu Asistencia</h2>
-      
-      <div class="glass-form">
-        <form id="rsvpForm">
-          <input id="name" type="text" placeholder="Nombre de los invitados" required>
-          <input id="adults" type="number" placeholder="Cantidad Adultos">
-          <input id="kids" type="number" placeholder="Cantidad Niños">
-          <textarea id="msg" rows="3" placeholder="Mensaje para la cumpleañera..."></textarea>
-          
-          <button type="submit" class="btn" style="width:100%">Enviar por WhatsApp 📲</button>
+    <section id="rsvp" style="padding-bottom: 60px;">
+      <div class="glass-box" style="border-color: var(--disney-gold);">
+        <h2 style="text-align:center; margin-top:0;">Confirmar Asistencia</h2>
+        <form id="whatsappForm">
+          <input id="wName" type="text" placeholder="Nombre y Apellido" required>
+          <input id="wTotal" type="number" placeholder="Total de personas" required>
+          <textarea id="wMsg" rows="2" placeholder="¿Alguna alergia o mensaje?"></textarea>
+          <button type="submit" class="btn">Enviar Confirmación</button>
         </form>
       </div>
     </section>
@@ -242,96 +192,80 @@
   </main>
 
   <script>
-    // --- LÓGICA DEL JUEGO DE MEMORIA (Simple y Efectivo) ---
-    const icons = ['🐭', '🎀', '🦆', '👑', '🏰', '✨']; 
-    // Duplicamos para tener pares: [Mickey, Mickey, Minnie, Minnie...]
-    const cards = [...icons, ...icons];
+    // --- LÓGICA DEL JUEGO CON FOTOS REALES ---
+    // URLs de imágenes reales (Wikimedia / Públicas)
+    const images = [
+      'https://upload.wikimedia.org/wikipedia/en/d/d4/Mickey_Mouse.png', // Mickey
+      'https://upload.wikimedia.org/wikipedia/en/6/67/Minnie_Mouse.png', // Minnie
+      'https://upload.wikimedia.org/wikipedia/en/a/a6/Goofy.svg',        // Goofy
+      'https://upload.wikimedia.org/wikipedia/en/a/a5/Donald_Duck.png',  // Donald
+      'https://upload.wikimedia.org/wikipedia/en/3/3e/Pluto_%28Disney%29_transparent.png', // Pluto
+      'https://upload.wikimedia.org/wikipedia/en/2/22/Daisy_Duck_transparent.png' // Daisy
+    ];
     
-    // Barajar (Shuffle)
-    cards.sort(() => 0.5 - Math.random());
+    // Seleccionamos 4 personajes al azar para hacer 8 cartas (4 pares)
+    const selectedImages = images.sort(() => 0.5 - Math.random()).slice(0, 4);
+    const gameDeck = [...selectedImages, ...selectedImages].sort(() => 0.5 - Math.random());
 
-    const board = document.getElementById('gameBoard');
-    const winMsg = document.getElementById('winMsg');
-    let flipped = [];
-    let matched = 0;
-    let lockBoard = false; // Evitar clicks rápidos
+    const grid = document.getElementById('gameGrid');
+    let flippedCards = [];
+    let matches = 0;
 
-    // Crear tablero HTML
-    cards.forEach(icon => {
+    gameDeck.forEach(imgUrl => {
       const card = document.createElement('div');
-      card.classList.add('memory-card');
+      card.className = 'mem-card';
+      // HTML de la carta: Frente (Rojo) y Dorso (Foto)
       card.innerHTML = `
-        <div class="front">${icon}</div>
-        <div class="back">●●●</div>
+        <div class="face front">
+           <svg viewBox="0 0 24 24" style="width:50%; fill:white; opacity:0.8"><path d="M12 2C9 2 7 4 7 7c0 1.5.5 3 1.5 4C6 11 2 13 2 17c0 3 3 5 5 5h10c2 0 5-2 5-5 0-4-4-6-6.5-6 1-1 1.5-2.5 1.5-4 0-3-2-5-5-5z"/></svg>
+        </div>
+        <div class="face back">
+          <img src="${imgUrl}" alt="Disney Char">
+        </div>
       `;
-      // Evento Click
-      card.addEventListener('click', () => flipCard(card, icon));
-      board.appendChild(card);
+      
+      card.addEventListener('click', () => {
+        if(card.classList.contains('flipped') || flippedCards.length >= 2) return;
+        
+        card.classList.add('flipped');
+        flippedCards.push({ el: card, url: imgUrl });
+
+        if(flippedCards.length === 2) {
+          checkForMatch();
+        }
+      });
+
+      grid.appendChild(card);
     });
 
-    function flipCard(card, icon) {
-      if (lockBoard) return;
-      if (card.classList.contains('flipped')) return; // Ya volteada
-
-      card.classList.add('flipped');
-      flipped.push({ element: card, icon: icon });
-
-      if (flipped.length === 2) {
-        checkMatch();
-      }
-    }
-
-    function checkMatch() {
-      lockBoard = true;
-      const [c1, c2] = flipped;
-
-      if (c1.icon === c2.icon) {
-        // Coincidencia
-        matched++;
-        flipped = [];
-        lockBoard = false;
-        
-        // Efecto visual al coincidir
-        c1.element.style.background = '#66ff66'; 
-        c2.element.style.background = '#66ff66';
-
-        // Victoria
-        if (matched === icons.length) {
-          setTimeout(() => {
-            winMsg.style.display = 'block';
-            winMsg.innerHTML = "¡Felicidades! 🎉 Has desbloqueado la fiesta.";
-            confetti({
-              particleCount: 150,
-              spread: 70,
-              origin: { y: 0.6 }
-            });
-          }, 500);
+    function checkForMatch() {
+      const [c1, c2] = flippedCards;
+      
+      if(c1.url === c2.url) {
+        matches++;
+        flippedCards = [];
+        if(matches === 4) {
+          document.getElementById('winMessage').style.display = 'block';
+          confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
         }
-
       } else {
-        // No coinciden (voltear de nuevo)
         setTimeout(() => {
-          c1.element.classList.remove('flipped');
-          c2.element.classList.remove('flipped');
-          flipped = [];
-          lockBoard = false;
+          c1.el.classList.remove('flipped');
+          c2.el.classList.remove('flipped');
+          flippedCards = [];
         }, 1000);
       }
     }
 
-    // --- FORMULARIO WHATSAPP ---
-    const PHONE = "59899000000"; // Tu número
-    document.getElementById('rsvpForm').addEventListener('submit', (e) => {
+    // --- WHATSAPP FORM ---
+    document.getElementById('whatsappForm').addEventListener('submit', (e) => {
       e.preventDefault();
-      const n = document.getElementById('name').value;
-      const a = document.getElementById('adults').value || 0;
-      const k = document.getElementById('kids').value || 0;
-      const m = document.getElementById('msg').value;
-
-      const text = `✨ ¡Hola! Confirmamos para el cumple de Valentina.%0A%0A👤 *Familia:* ${n}%0A👨‍👩‍👧‍👦 *Adultos:* ${a} | *Niños:* ${k}%0A💌 *Mensaje:* ${m}`;
-      window.open(`https://wa.me/${PHONE}?text=${text}`, '_blank');
+      const n = document.getElementById('wName').value;
+      const t = document.getElementById('wTotal').value;
+      const m = document.getElementById('wMsg').value;
+      const url = `https://wa.me/59899000000?text=Hola! Confirmo asistencia al cumple de Valen:%0A👤 ${n}%0A🔢 Total: ${t}%0A📝 ${m}`;
+      window.open(url, '_blank');
     });
   </script>
-
 </body>
 </html>
