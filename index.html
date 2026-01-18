@@ -11,6 +11,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
   <style>
     :root {
       /* Paleta Refinada */
@@ -29,7 +31,6 @@
 
       --radius-lg: 24px;
       --radius-md: 16px;
-      --radius-sm: 8px;
 
       --max-width: 1120px;
       --nav-height: 70px;
@@ -51,13 +52,9 @@
       overflow-x: hidden;
     }
 
-    /* Utility: Noise Texture via CSS (Optimizado) */
+    /* Utility: Noise Texture via CSS */
     .bg-noise {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      opacity: 0.07;
-      pointer-events: none;
+      position: fixed; inset: 0; z-index: -1; opacity: 0.07; pointer-events: none;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
     }
 
@@ -73,127 +70,93 @@
 
     .text-gradient {
       background: linear-gradient(135deg, #fff 30%, var(--accent-secondary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
 
-    /* Components: Buttons */
+    /* Buttons */
     .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 24px;
-      border-radius: var(--radius-md);
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.2s ease;
-      cursor: pointer;
-      font-size: 0.95rem;
+      display: inline-flex; align-items: center; gap: 10px; padding: 12px 24px;
+      border-radius: var(--radius-md); font-weight: 600; text-decoration: none;
+      transition: all 0.2s ease; cursor: pointer; font-size: 0.95rem;
     }
     .btn-primary {
       background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-      color: #000;
-      border: 1px solid transparent;
-      box-shadow: 0 8px 20px rgba(124, 58, 237, 0.25);
+      color: #000; border: 1px solid transparent; box-shadow: 0 8px 20px rgba(124, 58, 237, 0.25);
     }
     .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(124, 58, 237, 0.35); }
     
     .btn-outline {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-light);
-      color: white;
+      background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-light); color: white;
     }
     .btn-outline:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--border-hover); }
 
-    /* Components: Cards & Panels */
+    /* Cards & Panels */
     .glass-panel {
-      background: var(--bg-panel);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid var(--border-light);
-      border-radius: var(--radius-lg);
+      background: var(--bg-panel); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border-light); border-radius: var(--radius-lg);
     }
 
     /* Header */
     header {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      height: var(--nav-height);
-      background: rgba(5, 6, 10, 0.8);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border-light);
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--nav-height);
+      background: rgba(5, 6, 10, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-light);
       display: flex; align-items: center;
     }
-    .nav-container {
-      display: flex; justify-content: space-between; align-items: center; width: 100%;
-    }
+    .nav-container { display: flex; justify-content: space-between; align-items: center; width: 100%; }
     .logo { font-weight: 700; font-size: 1.25rem; color: white; text-decoration: none; display: flex; align-items: center; gap: 8px; }
     .logo span { color: var(--accent-secondary); }
-    
     .nav-links { display: flex; gap: 24px; align-items: center; }
     .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
     .nav-links a:hover { color: white; }
-    @media(max-width: 768px) { .nav-links { display: none; } } /* Simple hide for mobile MVP */
+    @media(max-width: 768px) { .nav-links { display: none; } }
 
     /* Hero Section */
     .hero {
-      min-height: 100vh;
-      padding-top: var(--nav-height);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-      gap: 40px;
+      min-height: 100vh; padding-top: var(--nav-height); display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 40px;
     }
     @media(max-width: 900px) { .hero { grid-template-columns: 1fr; text-align: center; padding-top: 100px; padding-bottom: 60px;} .hero-btns { justify-content: center; } }
 
     .hero-badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 6px 12px;
-      background: rgba(124, 58, 237, 0.1);
-      border: 1px solid rgba(124, 58, 237, 0.3);
-      border-radius: 20px;
-      font-size: 0.8rem; font-weight: 600; color: #d8b4fe;
-      margin-bottom: 20px;
-      text-transform: uppercase; letter-spacing: 0.05em;
+      display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px;
+      background: rgba(124, 58, 237, 0.1); border: 1px solid rgba(124, 58, 237, 0.3);
+      border-radius: 20px; font-size: 0.8rem; font-weight: 600; color: #d8b4fe;
+      margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.05em;
     }
     .hero-btns { display: flex; gap: 16px; margin-top: 32px; flex-wrap: wrap; }
 
     /* 3D Visual */
-    .visual-stage {
-      position: relative;
-      height: 500px;
-      display: flex; justify-content: center; align-items: center;
-      perspective: 1000px;
-    }
+    .visual-stage { position: relative; height: 500px; display: flex; justify-content: center; align-items: center; perspective: 1000px; }
     .card-3d {
-      width: 300px; height: 450px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-      border-radius: 24px;
-      border: 1px solid rgba(255,255,255,0.2);
-      position: relative;
-      transform-style: preserve-3d;
-      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-      /* Placeholder Image for Demo */
-      background-image: url('https://images.unsplash.com/photo-1605647540924-852290f6b0d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');
+      width: 300px; height: 450px; background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+      border-radius: 24px; border: 1px solid rgba(255,255,255,0.2); position: relative;
+      transform-style: preserve-3d; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+      background-image: url('https://images.unsplash.com/photo-1514525253440-b393452e8d26?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');
       background-size: cover; background-position: center;
     }
-    /* Floating Elements */
     .floater { position: absolute; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
     .f1 { top: 20%; left: 0; width: 80px; height: 80px; background: #1e1e2e; transform: translateZ(40px) translateX(-40px); border: 1px solid var(--border-light); display: grid; place-items: center;}
     .f2 { bottom: 15%; right: -20px; width: 160px; padding: 12px; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); transform: translateZ(60px); border: 1px solid var(--border-light); border-radius: 12px; font-size: 0.8rem; color: white; }
 
     /* Grids */
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; padding: 80px 0; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; padding: 40px 0; }
     
-    .feature-card { padding: 32px; transition: transform 0.3s; }
+    .feature-card { padding: 32px; transition: transform 0.3s; overflow: hidden; position: relative; }
     .feature-card:hover { transform: translateY(-5px); border-color: var(--border-hover); }
     .icon-box {
-      width: 48px; height: 48px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
-      border: 1px solid var(--border-light);
-      border-radius: 12px;
-      display: grid; place-items: center;
+      width: 48px; height: 48px; background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+      border: 1px solid var(--border-light); border-radius: 12px; display: grid; place-items: center;
       margin-bottom: 20px; font-size: 1.5rem;
+    }
+
+    /* --- NUEVOS ESTILOS PARA LA GALERÍA DE PLANTILLAS --- */
+    .template-thumb {
+      height: 200px; border-radius: 12px; margin-bottom: 20px;
+      background-size: cover; background-position: center; position: relative;
+    }
+    .template-tag {
+      position: absolute; top: 10px; right: 10px; padding: 4px 10px;
+      background: rgba(0,0,0,0.7); color: white; font-size: 0.75rem; border-radius: 20px; font-weight: 700;
+      backdrop-filter: blur(4px);
     }
 
     /* Form Section */
@@ -203,12 +166,8 @@
     .form-group { margin-bottom: 16px; }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     input, select, textarea {
-      width: 100%;
-      background: rgba(0,0,0,0.3);
-      border: 1px solid var(--border-light);
-      padding: 14px 16px;
-      border-radius: var(--radius-md);
-      color: white; font-family: inherit; font-size: 0.95rem;
+      width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border-light);
+      padding: 14px 16px; border-radius: var(--radius-md); color: white; font-family: inherit; font-size: 0.95rem;
       transition: border-color 0.2s;
     }
     input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent-primary); }
@@ -232,8 +191,8 @@
         teinvito<span>.com</span>
       </a>
       <nav class="nav-links">
+        <a href="#demos">Ver Demos</a>
         <a href="#que-hacemos">Propuesta</a>
-        <a href="#plantillas">Diseños</a>
         <a href="#precios">Precios</a>
         <a href="#contacto" class="btn btn-primary" style="padding: 8px 16px; font-size: 0.85rem;">Empezar</a>
       </nav>
@@ -245,11 +204,11 @@
     <section class="hero">
       <div class="hero-content">
         <div class="hero-badge">⚡ Entrega en 24hs</div>
-        <h1>Tus invitaciones ahora son <span class="text-gradient">una experiencia.</span></h1>
+        <h1>Tus invitaciones ahora tienen <span class="text-gradient">vida propia.</span></h1>
         <p>Olvídate de las imágenes estáticas. Creamos sitios web interactivos para tu evento con mapas, confirmación por WhatsApp y animaciones de cine.</p>
         
         <div class="hero-btns">
-          <a href="#plantillas" class="btn btn-primary">
+          <a href="#demos" class="btn btn-primary">
             Ver Plantillas
             <svg class="icon" style="width:18px" viewBox="0 0 24 24"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
           </a>
@@ -259,57 +218,70 @@
 
       <div class="visual-stage" id="scene">
         <div class="card-3d" id="card3d">
-          <div class="floater f1">
-             <svg class="icon" style="color:var(--accent-primary)" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <div style="position:absolute; inset:0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); border-radius: 24px;"></div>
+          
+          <div style="position: absolute; top: -40px; right: -40px; width: 120px; height: 120px; pointer-events: none;">
+            <lottie-player src="https://lottie.host/5a8b0056-1246-4c17-9831-50854d926315/O0x8Q5W6j9.json" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
           </div>
-          <div class="floater f2">
-            <div style="display:flex; gap:10px; align-items:center;">
-              <div style="width:10px; height:10px; background:#4ade80; border-radius:50%"></div>
-              <span>Agustina confirmó asistencia.</span>
+
+          <div class="floater f2" style="display:flex; align-items:center; gap:10px;">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=64&h=64" style="width:32px; height:32px; border-radius:50%; object-fit:cover; border:2px solid white;">
+            <div>
+              <span style="font-size:0.75rem; color: #ccc; display:block; line-height:1;">Hace 2 min</span>
+              <span style="font-size:0.85rem; font-weight:600;">Sofi confirmó asistencia ✨</span>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="que-hacemos">
+    <section id="demos" style="padding-top: 20px;">
+      <div style="text-align:center; margin-bottom:20px;">
+        <h2>Nuestras Plantillas</h2>
+        <p>Elegí un diseño y probalo en vivo ahora mismo.</p>
+      </div>
+
       <div class="grid-3">
-        <div class="glass-panel feature-card">
-          <div class="icon-box" style="color:var(--accent-secondary)">
-            <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+        
+        <div class="glass-panel feature-card" style="border: 1px solid rgba(255, 215, 0, 0.4);">
+          <div class="template-thumb" style="background-image: url('https://i.pinimg.com/originals/a7/3d/70/a73d702b0131a68b34af89f79422dc67.jpg');">
+            <span class="template-tag">NUEVO</span>
           </div>
-          <h3>Experiencia WOW</h3>
-          <p>Tus invitados reciben un link. Al abrirlo, ven animaciones fluidas, música opcional y fotos en alta calidad.</p>
+          <h3 style="color: #ffd700;">Mundo Mágico</h3>
+          <p>Ideal para cumples infantiles. Incluye castillo, animaciones de Mickey y efectos de magia.</p>
+          
+          <a href="plantilladisney.html" target="_blank" class="btn btn-primary" style="width:100%; justify-content:center; background: linear-gradient(135deg, #ffd700, #ff3366); color:white; border:none;">
+            Ver Demo en Vivo ➝
+          </a>
         </div>
+
         <div class="glass-panel feature-card">
-          <div class="icon-box" style="color:var(--accent-primary)">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          <div class="template-thumb" style="background-image: url('https://images.unsplash.com/photo-1519751138087-5bf79df62d58?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
+            <span class="template-tag">Elegante</span>
           </div>
-          <h3>RSVP Automatizado</h3>
-          <p>Nada de planillas de Excel manuales. El invitado toca "Confirmar" y te llega un mensaje de WhatsApp pre-armado.</p>
+          <h3>Noche de Gala</h3>
+          <p>Perfecto para 15 años o bodas. Estilo minimalista, tipografía fina y colores sobrios.</p>
+          <button class="btn btn-outline" style="width:100%; justify-content:center; opacity:0.5; cursor:not-allowed;">Próximamente</button>
         </div>
+
         <div class="glass-panel feature-card">
-          <div class="icon-box" style="color:var(--accent-tertiary)">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 3.2a8 8 0 0 1 8 7.2C20 17.5 12 22 12 22z"/><circle cx="12" cy="10" r="3"/></svg>
+          <div class="template-thumb" style="background-image: url('https://images.unsplash.com/photo-1530103862676-de3c9a59af57?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
+            <span class="template-tag">Fiesta</span>
           </div>
-          <h3>Logística Resuelta</h3>
-          <p>Integración nativa con Google Maps y Waze para que nadie se pierda llegando al salón.</p>
+          <h3>Neon Party</h3>
+          <p>Para eventos nocturnos. Colores vibrantes, música de fondo y efectos glitch.</p>
+          <button class="btn btn-outline" style="width:100%; justify-content:center; opacity:0.5; cursor:not-allowed;">Próximamente</button>
         </div>
+
       </div>
     </section>
 
     <section id="precios" style="padding: 40px 0;">
       <h2 style="text-align:center">Planes simples</h2>
-      <div class="grid-3" style="max-width: 800px; margin: 0 auto;">
+      <div class="grid-3" style="max-width: 800px; margin: 0 auto; padding-top:20px;">
         <div class="glass-panel feature-card" style="border-top: 4px solid var(--accent-secondary)">
           <h3>Plantilla Express</h3>
           <div style="font-size: 2.5rem; font-weight: 700; margin: 10px 0;">$15 <span style="font-size:1rem; color:var(--text-muted)">USD</span></div>
-          <ul style="list-style:none; padding:0; color: var(--text-muted); font-size: 0.9rem;">
-            <li style="margin-bottom:8px">✓ Diseño prediseñado</li>
-            <li style="margin-bottom:8px">✓ Tus fotos y textos</li>
-            <li style="margin-bottom:8px">✓ Entrega en 24hs</li>
-            <li style="margin-bottom:8px">✓ RSVP WhatsApp</li>
-          </ul>
           <a href="#contacto" class="btn btn-outline" style="width:100%; justify-content:center; margin-top:20px;">Elegir</a>
         </div>
         
@@ -317,12 +289,6 @@
           <div style="position:absolute; top:10px; right:10px; font-size:0.7rem; background:var(--accent-primary); color:white; padding:4px 8px; border-radius:4px;">POPULAR</div>
           <h3>100% Personalizado</h3>
           <div style="font-size: 2.5rem; font-weight: 700; margin: 10px 0;">$25 <span style="font-size:1rem; color:var(--text-muted)">USD</span></div>
-          <ul style="list-style:none; padding:0; color: var(--text-muted); font-size: 0.9rem;">
-            <li style="margin-bottom:8px">✓ Temática a elección</li>
-            <li style="margin-bottom:8px">✓ Estilo cinematográfico</li>
-            <li style="margin-bottom:8px">✓ Mini-juegos opcionales</li>
-            <li style="margin-bottom:8px">✓ Soporte prioritario</li>
-          </ul>
           <a href="#contacto" class="btn btn-primary" style="width:100%; justify-content:center; margin-top:20px;">Quiero este</a>
         </div>
       </div>
@@ -330,7 +296,6 @@
 
     <section id="contacto">
       <h2 style="margin-bottom: 40px;">Empecemos tu invitación</h2>
-      
       <div class="contact-split">
         <div class="glass-panel" style="padding: 32px;">
           <form id="leadForm">
@@ -347,7 +312,6 @@
                 </select>
               </div>
             </div>
-
             <div class="form-row">
               <div class="form-group">
                 <label>Nombre del Agasajado</label>
@@ -358,50 +322,35 @@
                 <input id="fAge" type="text" placeholder="Ej: 5">
               </div>
             </div>
-
             <div class="form-group">
               <label>Fecha y Hora</label>
               <input id="fDate" type="text" placeholder="Ej: Sábado 14 de Oct, 18hs">
             </div>
-
             <div class="form-group">
               <label>Notas adicionales</label>
               <textarea id="fNotes" rows="3" placeholder="Contanos la temática, colores o dudas..."></textarea>
             </div>
-
             <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; margin-top:10px;">
               <svg class="icon" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
               Continuar en WhatsApp
             </button>
-            <p style="font-size: 0.8rem; margin-top: 12px; text-align: center; opacity: 0.7;">
-              Al hacer clic, se abrirá WhatsApp con los datos precargados.
-            </p>
           </form>
         </div>
-
+        
         <div>
           <h3 style="margin-top:0">¿Cómo funciona?</h3>
           <div style="display:flex; flex-direction:column; gap:20px; margin-top:20px;">
             <div style="display:flex; gap:16px;">
               <div style="background:var(--bg-panel); width:40px; height:40px; border-radius:50%; display:grid; place-items:center; border:1px solid var(--border-light); font-weight:bold;">1</div>
-              <div>
-                <strong style="color:white; display:block; margin-bottom:4px">Envías los datos</strong>
-                <p style="margin:0; font-size:0.9rem">Completas este formulario. No te preocupes si falta algo, lo charlamos.</p>
-              </div>
+              <div><strong style="color:white; display:block; margin-bottom:4px">Envías los datos</strong><p style="margin:0; font-size:0.9rem">Completas este formulario.</p></div>
             </div>
             <div style="display:flex; gap:16px;">
               <div style="background:var(--bg-panel); width:40px; height:40px; border-radius:50%; display:grid; place-items:center; border:1px solid var(--border-light); font-weight:bold;">2</div>
-              <div>
-                <strong style="color:white; display:block; margin-bottom:4px">Pago y Diseño</strong>
-                <p style="margin:0; font-size:0.9rem">Coordinamos el pago (transferencia/link) y empezamos a diseñar.</p>
-              </div>
+              <div><strong style="color:white; display:block; margin-bottom:4px">Diseño y Pago</strong><p style="margin:0; font-size:0.9rem">Coordinamos todo por WhatsApp.</p></div>
             </div>
             <div style="display:flex; gap:16px;">
               <div style="background:var(--bg-panel); width:40px; height:40px; border-radius:50%; display:grid; place-items:center; border:1px solid var(--border-light); font-weight:bold;">3</div>
-              <div>
-                <strong style="color:white; display:block; margin-bottom:4px">Entrega del Link</strong>
-                <p style="margin:0; font-size:0.9rem">Recibís tu invitación lista para reenviar a todos tus invitados.</p>
-              </div>
+              <div><strong style="color:white; display:block; margin-bottom:4px">Entrega</strong><p style="margin:0; font-size:0.9rem">Recibís tu link único.</p></div>
             </div>
           </div>
         </div>
@@ -417,66 +366,37 @@
   </footer>
 
   <script>
-    // --- Configuración ---
-    const WHATSAPP_NUMBER = "59899000000"; // Tu número con código de país (Ej: 598 para UY)
+    const WHATSAPP_NUMBER = "59899000000"; 
     
-    // --- Lógica de Formulario ---
     document.getElementById("leadForm").addEventListener("submit", (e) => {
       e.preventDefault();
-      
       const getVal = (id) => document.getElementById(id).value;
-      const payload = {
-        nombre: getVal('fName'),
-        tipo: getVal('fType'),
-        nino: getVal('fChild'),
-        edad: getVal('fAge'),
-        fecha: getVal('fDate'),
-        notas: getVal('fNotes')
-      };
-
-      // Mensaje estructurado con saltos de línea codificados
       const msg = `👋 Hola! Quiero pedir una invitación en teinvito.com:%0A%0A` +
-                  `👤 *Nombre:* ${payload.nombre}%0A` +
-                  `📦 *Pack:* ${payload.tipo}%0A` +
-                  `🎂 *Cumple:* ${payload.nino} (${payload.edad} años)%0A` +
-                  `📅 *Fecha:* ${payload.fecha}%0A` +
-                  `📝 *Notas:* ${payload.notas}`;
-
+                  `👤 *Nombre:* ${getVal('fName')}%0A` +
+                  `📦 *Pack:* ${getVal('fType')}%0A` +
+                  `🎂 *Cumple:* ${getVal('fChild')} (${getVal('fAge')} años)%0A` +
+                  `📅 *Fecha:* ${getVal('fDate')}%0A` +
+                  `📝 *Notas:* ${getVal('fNotes')}`;
       window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
     });
 
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // --- Efecto 3D Optimizado (Performance Friendly) ---
+    // 3D Effect for Hero
     const card = document.getElementById('card3d');
-    const container = document.getElementById('scene');
+    let currentX = 0, currentY = 0, aimX = 0, aimY = 0;
     
-    let currentX = 0;
-    let currentY = 0;
-    let aimX = 0;
-    let aimY = 0;
-    
-    // Solo escuchamos el evento, no calculamos estilos aquí
     document.addEventListener('mousemove', (e) => {
-      const x = (window.innerWidth / 2 - e.pageX) / 25;
-      const y = (window.innerHeight / 2 - e.pageY) / 25;
-      aimX = x;
-      aimY = y;
+      aimX = (window.innerWidth / 2 - e.pageX) / 25;
+      aimY = (window.innerHeight / 2 - e.pageY) / 25;
     });
 
-    // Loop de animación fluido
     function animate() {
-      // Interpolación lineal (Lerp) para suavidad
       currentX += (aimX - currentX) * 0.1;
       currentY += (aimY - currentY) * 0.1;
-      
-      if(card) {
-        card.style.transform = `rotateY(${currentX}deg) rotateX(${currentY}deg)`;
-      }
-      
+      if(card) card.style.transform = `rotateY(${currentX}deg) rotateX(${currentY}deg)`;
       requestAnimationFrame(animate);
     }
-    
     animate();
   </script>
 </body>
