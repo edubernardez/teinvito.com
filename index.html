@@ -1,0 +1,1157 @@
+<!doctype html>
+<html lang="es-UY">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>teinvito.com — Invitaciones virtuales interactivas</title>
+  <meta name="description" content="Invitaciones virtuales interactivas para cumpleaños y eventos. Plantillas desde USD 15. Personalizadas desde USD 25. Confirmación por WhatsApp." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg0:#05060a;
+      --bg1:#070a14;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.10);
+      --stroke: rgba(255,255,255,.14);
+      --ink: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.70);
+
+      --a:#7c3aed;      /* violeta */
+      --b:#22d3ee;      /* cian */
+      --c:#ff2d7a;      /* fucsia */
+
+      --shadow: 0 18px 60px rgba(0,0,0,.55);
+      --radius: 26px;
+
+      --max: 1120px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(124,58,237,.22), transparent 55%),
+                  radial-gradient(900px 700px at 80% 20%, rgba(34,211,238,.18), transparent 55%),
+                  radial-gradient(1000px 700px at 55% 90%, rgba(255,45,122,.16), transparent 55%),
+                  linear-gradient(180deg, var(--bg0), var(--bg1));
+      color: var(--ink);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      overflow-x:hidden;
+    }
+
+    /* background textures */
+    .bg-texture{
+      position: fixed;
+      inset:0;
+      z-index:-3;
+      opacity:.22;
+      background-image: url("assets/bg/noise.png");
+      background-size: 260px 260px;
+      mix-blend-mode: overlay;
+      pointer-events:none;
+    }
+    .bg-grid{
+      position: fixed;
+      inset:-40px;
+      z-index:-4;
+      opacity:.24;
+      background-image:
+        linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+      background-size: 64px 64px;
+      transform: perspective(900px) rotateX(58deg) translateY(-120px);
+      transform-origin: top;
+      pointer-events:none;
+      filter: blur(.2px);
+    }
+
+    /* floating smoke layers */
+    .smoke{
+      position: fixed;
+      inset:-20%;
+      z-index:-2;
+      pointer-events:none;
+      opacity:.30;
+      filter: blur(0px);
+      background-repeat:no-repeat;
+      background-size: cover;
+      animation: floatSmoke 18s ease-in-out infinite;
+      mix-blend-mode: screen;
+    }
+    .smoke.s1{ background-image: url("assets/bg/smoke_01.png"); animation-duration: 22s; }
+    .smoke.s2{ background-image: url("assets/bg/smoke_02.png"); opacity:.22; animation-duration: 26s; animation-direction: reverse; }
+    @keyframes floatSmoke{
+      0%{ transform: translate3d(0,0,0) scale(1.03); }
+      50%{ transform: translate3d(-2%,1.5%,0) scale(1.07); }
+      100%{ transform: translate3d(0,0,0) scale(1.03); }
+    }
+
+    a{color:inherit}
+    .wrap{ max-width: var(--max); margin:0 auto; padding: 20px 18px 70px; }
+
+    /* topbar */
+    .topbar{
+      position: sticky;
+      top:0;
+      z-index:100;
+      backdrop-filter: blur(14px);
+      background: rgba(5,6,10,.55);
+      border-bottom: 1px solid rgba(255,255,255,.10);
+    }
+    .topbar-inner{
+      max-width: var(--max);
+      margin:0 auto;
+      padding: 14px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      text-decoration:none;
+    }
+    .logo{
+      width:34px;height:34px;border-radius:12px;
+      background: radial-gradient(circle at 25% 20%, rgba(34,211,238,.9), rgba(124,58,237,.9));
+      box-shadow: 0 10px 30px rgba(124,58,237,.22);
+      border: 1px solid rgba(255,255,255,.16);
+      overflow:hidden;
+      display:grid;
+      place-items:center;
+    }
+    .logo img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .brand-text{
+      display:flex;
+      flex-direction:column;
+      line-height:1.05;
+    }
+    .brand-text b{
+      font-family: "Space Grotesk", Inter, system-ui;
+      font-size: 16px;
+      letter-spacing:.2px;
+    }
+    .brand-text span{ font-size:12px; color: var(--muted); font-weight:600; }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .nav a{
+      text-decoration:none;
+      font-weight:700;
+      font-size:12px;
+      color: rgba(255,255,255,.80);
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+    }
+    .nav a:hover{ border-color: rgba(255,255,255,.20); }
+
+    .ctaWsp{
+      text-decoration:none;
+      font-weight:900;
+      font-size:12px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: linear-gradient(90deg, rgba(34,211,238,.95), rgba(255,45,122,.95));
+      color: #05060a;
+      border: 0;
+      box-shadow: 0 18px 48px rgba(34,211,238,.18);
+      white-space:nowrap;
+    }
+
+    /* hero */
+    .hero{
+      padding: 34px 0 18px;
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 22px;
+      align-items:stretch;
+    }
+    @media (max-width: 900px){
+      .hero{ grid-template-columns: 1fr; }
+    }
+
+    .heroLeft{
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: var(--shadow);
+      padding: 26px;
+      position:relative;
+      overflow:hidden;
+      transform-style: preserve-3d;
+    }
+
+    .heroLeft::before{
+      content:"";
+      position:absolute;
+      inset:-160px;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(124,58,237,.28), transparent 55%),
+        radial-gradient(circle at 70% 35%, rgba(34,211,238,.22), transparent 55%),
+        radial-gradient(circle at 40% 85%, rgba(255,45,122,.18), transparent 60%);
+      filter: blur(18px);
+      pointer-events:none;
+    }
+
+    .kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-weight:900;
+      font-size:12px;
+      letter-spacing:.6px;
+      text-transform:uppercase;
+      color: rgba(255,255,255,.85);
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      position:relative;
+      z-index:2;
+    }
+    .dot{
+      width:8px;height:8px;border-radius:50%;
+      background: linear-gradient(90deg, var(--b), var(--c));
+      box-shadow: 0 0 18px rgba(34,211,238,.35);
+    }
+
+    h1{
+      margin: 14px 0 10px;
+      font-family: "Space Grotesk", Inter, system-ui;
+      font-weight: 800;
+      font-size: clamp(34px, 3.8vw, 56px);
+      line-height:1.02;
+      letter-spacing:-.9px;
+      position:relative;
+      z-index:2;
+    }
+    .gradText{
+      background: linear-gradient(90deg, rgba(255,255,255,.96), rgba(34,211,238,.92), rgba(255,45,122,.92));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color: transparent;
+    }
+
+    .heroP{
+      margin: 0 0 18px;
+      color: rgba(255,255,255,.74);
+      font-size: 15px;
+      line-height:1.5;
+      max-width: 52ch;
+      position:relative;
+      z-index:2;
+      font-weight:600;
+    }
+
+    .heroBtns{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      position:relative;
+      z-index:2;
+      margin-top: 12px;
+    }
+    .btn{
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.92);
+      padding: 12px 14px;
+      border-radius: 16px;
+      font-weight:900;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      cursor:pointer;
+      transform: translateZ(0);
+      transition: transform .12s ease, border-color .12s ease;
+    }
+    .btn:hover{ border-color: rgba(255,255,255,.22); transform: translateY(-1px); }
+    .btn.primary{
+      background: linear-gradient(90deg, rgba(124,58,237,.95), rgba(34,211,238,.95));
+      color: #05060a;
+      border-color: transparent;
+      box-shadow: 0 18px 55px rgba(124,58,237,.18);
+    }
+    .btn.pink{
+      background: linear-gradient(90deg, rgba(255,45,122,.95), rgba(34,211,238,.90));
+      color:#05060a;
+      border-color: transparent;
+    }
+    .btn small{ font-size:12px; font-weight:900; opacity:.9; }
+
+    /* Hero 3D stage */
+    .heroRight{
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+      min-height: 420px;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+    }
+
+    .stage{
+      position:absolute;
+      inset:0;
+      transform-style: preserve-3d;
+    }
+
+    .orb{
+      position:absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 25%, rgba(34,211,238,.95), rgba(124,58,237,.0) 65%),
+                  radial-gradient(circle at 70% 70%, rgba(255,45,122,.75), rgba(255,45,122,0) 62%);
+      filter: blur(1px);
+      opacity:.85;
+      mix-blend-mode: screen;
+      animation: orbFloat 7s ease-in-out infinite;
+      border: 1px solid rgba(255,255,255,.10);
+    }
+    .orb.o1{ left:-60px; top:40px; animation-delay: .0s; }
+    .orb.o2{ right:-70px; bottom:40px; width: 260px; height: 260px; opacity:.72; animation-delay: 1.3s; }
+
+    @keyframes orbFloat{
+      0%{ transform: translate3d(0,0,0) }
+      50%{ transform: translate3d(0,-14px,0) }
+      100%{ transform: translate3d(0,0,0) }
+    }
+
+    .floatingCard{
+      position:absolute;
+      left:50%;
+      top:52%;
+      width: 330px;
+      max-width: 76%;
+      height: 420px;
+      transform: translate(-50%,-50%) rotateX(10deg) rotateY(-16deg);
+      transform-style: preserve-3d;
+      border-radius: 28px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: 0 26px 80px rgba(0,0,0,.55);
+      overflow:hidden;
+      backdrop-filter: blur(14px);
+    }
+    .floatingCard::before{
+      content:"";
+      position:absolute;
+      inset:-60px;
+      background:
+        radial-gradient(circle at 30% 25%, rgba(124,58,237,.26), transparent 60%),
+        radial-gradient(circle at 70% 35%, rgba(34,211,238,.20), transparent 55%),
+        radial-gradient(circle at 55% 85%, rgba(255,45,122,.16), transparent 60%);
+      filter: blur(18px);
+      pointer-events:none;
+    }
+    .floatingCard .shot{
+      position:absolute;
+      inset:0;
+      background: url("assets/hero/invite_mock_01.jpg") center/cover no-repeat;
+      opacity:.92;
+      transform: translateZ(32px);
+    }
+    .floatingCard .glare{
+      position:absolute;
+      inset:-40%;
+      background: linear-gradient(115deg, rgba(255,255,255,.0), rgba(255,255,255,.22), rgba(255,255,255,.0));
+      transform: rotate(18deg);
+      opacity:.45;
+      mix-blend-mode: overlay;
+      animation: glare 4.8s ease-in-out infinite;
+      pointer-events:none;
+    }
+    @keyframes glare{
+      0%{ transform: translateX(-25%) rotate(18deg); opacity:.18; }
+      50%{ transform: translateX(25%) rotate(18deg); opacity:.55; }
+      100%{ transform: translateX(-25%) rotate(18deg); opacity:.18; }
+    }
+
+    .miniCards{
+      position:absolute;
+      inset:0;
+      transform-style: preserve-3d;
+      pointer-events:none;
+    }
+    .mini{
+      position:absolute;
+      width: 170px;
+      height: 220px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+      overflow:hidden;
+      backdrop-filter: blur(12px);
+    }
+    .mini.m1{ left: 10%; top: 20%; transform: rotateX(16deg) rotateY(18deg) translateZ(16px); }
+    .mini.m2{ right: 8%; bottom: 18%; transform: rotateX(-10deg) rotateY(-18deg) translateZ(22px); }
+    .mini .img{ position:absolute; inset:0; background: center/cover no-repeat; opacity:.92; }
+    .mini.m1 .img{ background-image: url("assets/hero/invite_mock_02.jpg"); }
+    .mini.m2 .img{ background-image: url("assets/hero/invite_mock_03.jpg"); }
+
+    /* sparkle stickers */
+    .spark{
+      position:absolute;
+      width: 140px;
+      height:auto;
+      opacity:.85;
+      filter: drop-shadow(0 20px 40px rgba(0,0,0,.35));
+      mix-blend-mode: screen;
+      animation: sparkFloat 5.5s ease-in-out infinite;
+      pointer-events:none;
+    }
+    .spark.sA{ left: 14px; bottom: 22px; animation-delay: .0s; }
+    .spark.sB{ right: 10px; top: 14px; width: 120px; opacity:.75; animation-delay: 1.2s; }
+    @keyframes sparkFloat{
+      0%{ transform: translateY(0) rotate(-6deg); }
+      50%{ transform: translateY(-10px) rotate(6deg); }
+      100%{ transform: translateY(0) rotate(-6deg); }
+    }
+
+    /* sections */
+    section{ padding: 28px 0; }
+    .sectionHead{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:14px;
+      margin-bottom: 14px;
+    }
+    .sectionHead h2{
+      margin:0;
+      font-family:"Space Grotesk", Inter, system-ui;
+      font-weight: 800;
+      letter-spacing:-.5px;
+      font-size: 26px;
+    }
+    .sectionHead p{
+      margin:0;
+      color: var(--muted);
+      font-weight:600;
+      max-width: 58ch;
+      font-size: 13px;
+      line-height:1.45;
+    }
+
+    .grid3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 900px){
+      .grid3{ grid-template-columns: 1fr; }
+      .sectionHead{ flex-direction:column; align-items:flex-start; }
+    }
+    .panel{
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow: 0 20px 70px rgba(0,0,0,.40);
+      padding: 16px;
+      position:relative;
+      overflow:hidden;
+    }
+    .panel::before{
+      content:"";
+      position:absolute;
+      inset:-80px;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(34,211,238,.14), transparent 60%),
+        radial-gradient(circle at 80% 25%, rgba(124,58,237,.12), transparent 60%),
+        radial-gradient(circle at 40% 90%, rgba(255,45,122,.10), transparent 60%);
+      filter: blur(18px);
+      pointer-events:none;
+      opacity:.8;
+    }
+    .panel > *{ position:relative; z-index:2; }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-weight:900;
+      font-size:12px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.86);
+    }
+    .badge i{
+      width:10px;height:10px;border-radius:50%;
+      background: linear-gradient(90deg, var(--a), var(--b));
+      display:inline-block;
+      box-shadow: 0 0 18px rgba(124,58,237,.22);
+    }
+
+    .panel h3{
+      margin: 10px 0 6px;
+      font-family:"Space Grotesk";
+      font-size: 18px;
+      letter-spacing:-.2px;
+    }
+    .panel p{
+      margin: 0;
+      color: rgba(255,255,255,.72);
+      font-weight:600;
+      font-size: 13px;
+      line-height:1.55;
+    }
+
+    /* templates */
+    .templateGrid{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 1040px){ .templateGrid{ grid-template-columns: repeat(2,1fr);} }
+    .tpl{
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      overflow:hidden;
+      box-shadow: 0 18px 60px rgba(0,0,0,.42);
+      position:relative;
+      cursor:pointer;
+      transform: translateZ(0);
+      transition: transform .12s ease, border-color .12s ease;
+    }
+    .tpl:hover{ transform: translateY(-2px); border-color: rgba(255,255,255,.20); }
+    .tpl .thumb{
+      aspect-ratio: 4 / 5;
+      background: center/cover no-repeat;
+      opacity:.92;
+    }
+    .tpl .meta{
+      padding: 10px 10px 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .tpl .meta b{ font-size: 12px; font-weight: 900; }
+    .pill{
+      font-size: 11px;
+      font-weight: 900;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.82);
+      white-space:nowrap;
+    }
+
+    /* pricing */
+    .pricing{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 900px){ .pricing{ grid-template-columns:1fr; } }
+    .priceCard{
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      box-shadow: 0 24px 80px rgba(0,0,0,.48);
+      padding: 18px;
+      position:relative;
+      overflow:hidden;
+    }
+    .priceCard.featured{
+      border-color: rgba(34,211,238,.32);
+      box-shadow: 0 26px 110px rgba(34,211,238,.10);
+    }
+    .priceTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom: 8px;
+    }
+    .priceTop h3{
+      margin:0;
+      font-family:"Space Grotesk";
+      font-size: 18px;
+    }
+    .price{
+      font-family:"Space Grotesk";
+      font-weight:900;
+      font-size: 26px;
+      letter-spacing:-.6px;
+      margin: 10px 0 10px;
+    }
+    .ul{
+      margin: 0;
+      padding-left: 18px;
+      color: rgba(255,255,255,.78);
+      font-weight:600;
+      font-size: 13px;
+      line-height:1.55;
+    }
+    .ul li{ margin: 6px 0; }
+    .note{
+      margin-top: 10px;
+      color: rgba(255,255,255,.62);
+      font-size: 12px;
+      font-weight:600;
+    }
+
+    /* contact */
+    .contactCard{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 14px;
+      align-items:stretch;
+    }
+    @media (max-width: 900px){ .contactCard{ grid-template-columns: 1fr; } }
+    .contactLeft, .contactRight{
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      box-shadow: 0 24px 80px rgba(0,0,0,.48);
+      padding: 18px;
+      position:relative;
+      overflow:hidden;
+    }
+    .contactLeft h3{ margin:0 0 8px; font-family:"Space Grotesk"; }
+    .contactLeft p{ margin:0 0 12px; color: rgba(255,255,255,.74); font-weight:600; font-size: 13px; line-height:1.55; }
+
+    .form{
+      display:grid;
+      gap:10px;
+    }
+    .row2{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+    @media (max-width: 560px){ .row2{ grid-template-columns:1fr; } }
+    input, select, textarea{
+      width:100%;
+      padding: 13px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.92);
+      font-family: Inter, system-ui;
+      outline:none;
+      font-weight:600;
+    }
+    textarea{ min-height: 96px; resize: vertical; }
+    input::placeholder, textarea::placeholder{ color: rgba(255,255,255,.55); }
+
+    .small{
+      color: rgba(255,255,255,.62);
+      font-size: 12px;
+      font-weight:600;
+      line-height:1.4;
+    }
+
+    /* floating whatsapp */
+    .wspFloat{
+      position: fixed;
+      right: 14px;
+      bottom: 14px;
+      z-index: 200;
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .wspBubble{
+      display:none;
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: rgba(5,6,10,.62);
+      border: 1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(14px);
+      color: rgba(255,255,255,.86);
+      font-size: 12px;
+      font-weight: 800;
+      max-width: 220px;
+    }
+    @media (min-width: 900px){ .wspBubble{ display:block; } }
+
+    .wspBtn{
+      width: 56px; height: 56px;
+      border-radius: 18px;
+      display:grid; place-items:center;
+      text-decoration:none;
+      background: linear-gradient(90deg, rgba(34,211,238,.95), rgba(255,45,122,.95));
+      color:#05060a;
+      border: none;
+      box-shadow: 0 22px 60px rgba(34,211,238,.14);
+      font-weight: 1000;
+      font-size: 18px;
+    }
+    .wspBtn:active{ transform: scale(.98); }
+
+    /* footer */
+    .footer{
+      margin-top: 26px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:space-between;
+      gap:12px;
+      color: rgba(255,255,255,.62);
+      font-weight:700;
+      font-size: 12px;
+    }
+    .socials{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .socials a{
+      text-decoration:none;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color: rgba(255,255,255,.82);
+      font-weight:900;
+    }
+
+    /* motion reduce */
+    @media (prefers-reduced-motion: reduce){
+      .smoke, .orb, .spark, .floatingCard .glare{ animation:none !important; }
+      .btn, .tpl{ transition:none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-texture" aria-hidden="true"></div>
+  <div class="smoke s1" aria-hidden="true"></div>
+  <div class="smoke s2" aria-hidden="true"></div>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#top" aria-label="teinvito.com">
+        <div class="logo" aria-hidden="true">
+          <!-- Opcional: poné tu logo real acá -->
+          <img src="assets/brand/logo_64.png" alt="" onerror="this.style.display='none'">
+        </div>
+        <div class="brand-text">
+          <b>teinvito.com</b>
+          <span>Invitaciones virtuales interactivas</span>
+        </div>
+      </a>
+
+      <nav class="nav" aria-label="Navegación">
+        <a href="#que-hacemos">Qué hacemos</a>
+        <a href="#plantillas">Plantillas</a>
+        <a href="#personalizado">Personalizado</a>
+        <a href="#precios">Precios</a>
+        <a href="#contacto">Contacto</a>
+        <a class="ctaWsp" id="navWsp" href="#" rel="noopener">WhatsApp</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap" id="top">
+    <!-- HERO -->
+    <div class="hero">
+      <div class="heroLeft" id="heroTilt">
+        <div class="kicker"><span class="dot"></span> PORTADAS WOW + LINK + RSVP</div>
+
+        <h1>
+          Invitaciones virtuales <span class="gradText">que se sienten</span> como un evento.
+        </h1>
+
+        <p class="heroP">
+          Creamos invitaciones interactivas con fotos, animaciones, mapa y confirmación por WhatsApp.
+          Plantillas rápidas o diseño 100% personalizado.
+        </p>
+
+        <div class="heroBtns">
+          <a class="btn primary" href="#plantillas">Ver plantillas <small>↓</small></a>
+          <a class="btn pink" href="#personalizado">Quiero algo personalizado</a>
+          <a class="btn" id="heroWsp" href="#" rel="noopener">Hablar por WhatsApp</a>
+        </div>
+
+        <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap; position:relative; z-index:2;">
+          <span class="badge"><i></i> Entrega plantillas: 24–48 hs</span>
+          <span class="badge"><i></i> Personalizadas: 3–5 días</span>
+          <span class="badge"><i></i> Link listo para compartir</span>
+        </div>
+      </div>
+
+      <div class="heroRight" id="stage">
+        <div class="stage" id="stageInner">
+          <div class="orb o1"></div>
+          <div class="orb o2"></div>
+
+          <div class="miniCards">
+            <div class="mini m1"><div class="img"></div></div>
+            <div class="mini m2"><div class="img"></div></div>
+          </div>
+
+          <div class="floatingCard" id="mainCard">
+            <div class="shot" aria-hidden="true"></div>
+            <div class="glare" aria-hidden="true"></div>
+          </div>
+
+          <img class="spark sA" src="assets/hero/sparkle_01.png" alt="" onerror="this.style.display='none'">
+          <img class="spark sB" src="assets/hero/sparkle_02.png" alt="" onerror="this.style.display='none'">
+        </div>
+      </div>
+    </div>
+
+    <!-- QUÉ HACEMOS -->
+    <section id="que-hacemos">
+      <div class="sectionHead">
+        <h2>Qué hacemos</h2>
+        <p>Una invitación digital premium: se abre con un link, se ve impecable en celular y confirma por WhatsApp.</p>
+      </div>
+
+      <div class="grid3">
+        <div class="panel">
+          <span class="badge"><i></i> Experiencia</span>
+          <h3>Portada WOW</h3>
+          <p>Animaciones, efectos, fotos y estilo cinematográfico. Que el invitado abra y diga “fa”.</p>
+        </div>
+        <div class="panel">
+          <span class="badge"><i></i> Interacción</span>
+          <h3>RSVP por WhatsApp</h3>
+          <p>Confirmación rápida con mensaje armado. Ideal para organizar adultos/niños y observaciones.</p>
+        </div>
+        <div class="panel">
+          <span class="badge"><i></i> Extras</span>
+          <h3>Juego + detalles</h3>
+          <p>Opcional: mini juego, sonidos, cuenta regresiva, mapa, galerías y todo lo que suma.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PLANTILLAS -->
+    <section id="plantillas">
+      <div class="sectionHead">
+        <h2>Plantillas listas</h2>
+        <p>Elegís una plantilla, nos pasás datos + fotos y en 24–48 hs te damos el link final para compartir.</p>
+      </div>
+
+      <div class="templateGrid">
+        <!-- Reemplazá thumbs con tus plantillas -->
+        <div class="tpl" data-open="#contacto" title="Ver demo">
+          <div class="thumb" style="background-image:url('assets/templates/tpl_01.jpg')"></div>
+          <div class="meta"><b>Plantilla 01</b><span class="pill">USD 15</span></div>
+        </div>
+        <div class="tpl" data-open="#contacto">
+          <div class="thumb" style="background-image:url('assets/templates/tpl_02.jpg')"></div>
+          <div class="meta"><b>Plantilla 02</b><span class="pill">USD 15</span></div>
+        </div>
+        <div class="tpl" data-open="#contacto">
+          <div class="thumb" style="background-image:url('assets/templates/tpl_03.jpg')"></div>
+          <div class="meta"><b>Plantilla 03</b><span class="pill">USD 15</span></div>
+        </div>
+        <div class="tpl" data-open="#contacto">
+          <div class="thumb" style="background-image:url('assets/templates/tpl_04.jpg')"></div>
+          <div class="meta"><b>Plantilla 04</b><span class="pill">USD 15</span></div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px" class="small">
+        Tip: estas imágenes son miniaturas. Los demos reales van con link a cada invitación.
+      </div>
+    </section>
+
+    <!-- PERSONALIZADO -->
+    <section id="personalizado">
+      <div class="sectionHead">
+        <h2>Personalizado</h2>
+        <p>Si querés un personaje/estilo que no está en plantillas, lo hacemos desde cero y queda único.</p>
+      </div>
+
+      <div class="grid3">
+        <div class="panel">
+          <span class="badge"><i></i> A medida</span>
+          <h3>Personaje/tema</h3>
+          <p>Elegís la temática y el look. Nosotros armamos la estética completa con tu material.</p>
+        </div>
+        <div class="panel">
+          <span class="badge"><i></i> Calidad</span>
+          <h3>Diseño premium</h3>
+          <p>Composición, tipografías, animación y ritmo visual. Nada “plantillado”.</p>
+        </div>
+        <div class="panel">
+          <span class="badge"><i></i> Extra</span>
+          <h3>Juego (opcional)</h3>
+          <p>Mini juego temático para sumar “wow” y que los chicos se queden jugando.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRECIOS -->
+    <section id="precios">
+      <div class="sectionHead">
+        <h2>Precios</h2>
+        <p>Arrancamos simple y claro. El precio final puede variar según complejidad y extras.</p>
+      </div>
+
+      <div class="pricing">
+        <div class="priceCard">
+          <div class="priceTop">
+            <h3>Plantillas listas</h3>
+            <span class="pill">Entrega 24–48 hs</span>
+          </div>
+          <div class="price">USD 15</div>
+          <ul class="ul">
+            <li>Invitación interactiva + link para compartir</li>
+            <li>Fotos en la portada</li>
+            <li>Cuenta regresiva + mapa</li>
+            <li>Confirmación por WhatsApp</li>
+          </ul>
+          <div class="note">Ideal si querés velocidad y resultado pro.</div>
+        </div>
+
+        <div class="priceCard featured">
+          <div class="priceTop">
+            <h3>Personalizada</h3>
+            <span class="pill">Entrega 3–5 días</span>
+          </div>
+          <div class="price">Desde USD 25</div>
+          <ul class="ul">
+            <li>Diseño a medida (tema/personaje a elección)</li>
+            <li>Animaciones y estilo únicos</li>
+            <li>Optimizada para celular</li>
+            <li>Opcional: juego + sonidos</li>
+          </ul>
+          <div class="note">Si querés algo que no existe en plantillas, es por acá.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section id="contacto">
+      <div class="sectionHead">
+        <h2>Contacto</h2>
+        <p>Nos pasás datos + fotos. Nosotros te devolvemos la invitación lista para compartir.</p>
+      </div>
+
+      <div class="contactCard">
+        <div class="contactLeft">
+          <h3>Pedí tu invitación</h3>
+          <p>Completá esto y tocá “Enviar por WhatsApp”. Se arma el mensaje solo.</p>
+
+          <form class="form" id="leadForm">
+            <div class="row2">
+              <input id="fName" type="text" placeholder="Tu nombre" required>
+              <select id="fType" required>
+                <option value="Plantilla (USD 15)">Plantilla (USD 15)</option>
+                <option value="Personalizada (desde USD 25)">Personalizada (desde USD 25)</option>
+              </select>
+            </div>
+
+            <div class="row2">
+              <input id="fChild" type="text" placeholder="Cumpleañero/a (nombre)" required>
+              <input id="fAge" type="text" placeholder="Edad (ej: 6)" required>
+            </div>
+
+            <div class="row2">
+              <input id="fDate" type="text" placeholder="Fecha (ej: Sáb 7 Feb)" required>
+              <input id="fTime" type="text" placeholder="Horario (ej: 19 a 23)" required>
+            </div>
+
+            <input id="fPlace" type="text" placeholder="Lugar (nombre + ciudad)" required>
+            <input id="fMaps" type="text" placeholder="Link de Google Maps (opcional)">
+            <textarea id="fNotes" placeholder="Notas: temática, cantidad de fotos, colores, extras (juego, sonidos), etc."></textarea>
+
+            <button class="btn primary" type="submit">Enviar por WhatsApp</button>
+            <div class="small">Al enviar, se abre WhatsApp con el texto armado. Vos solo mandás.</div>
+          </form>
+        </div>
+
+        <div class="contactRight">
+          <h3 style="margin:0 0 10px; font-family:'Space Grotesk'">Redes</h3>
+          <p class="small" style="margin:0 0 12px;">
+            Cambiá estos links por los tuyos. Acá ponés el portfolio y pruebas sociales.
+          </p>
+
+          <div class="socials" style="margin-bottom: 14px;">
+            <a href="#" target="_blank" rel="noopener">Instagram</a>
+            <a href="#" target="_blank" rel="noopener">TikTok</a>
+            <a href="#" target="_blank" rel="noopener">YouTube</a>
+          </div>
+
+          <div class="panel" style="padding:14px;">
+            <span class="badge"><i></i> Qué influye en el precio</span>
+            <p style="margin-top:10px">
+              • Nivel de personalización<br>
+              • Cantidad de fotos<br>
+              • Animaciones / efectos<br>
+              • Tema/personaje especial<br>
+              • Juego y sonidos
+            </p>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="panel" style="padding:14px;">
+            <span class="badge"><i></i> Entregas</span>
+            <p style="margin-top:10px">
+              • Plantillas: 24–48 hs<br>
+              • Personalizadas: 3–5 días<br>
+              • Todo optimizado para celular
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div>© <span id="year"></span> teinvito.com — Invitaciones virtuales interactivas</div>
+        <div>Hecho para convertir: demo + WhatsApp</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Floating WhatsApp -->
+  <div class="wspFloat">
+    <div class="wspBubble">¿Listo? Pedí tu invitación por WhatsApp.</div>
+    <a class="wspBtn" id="floatWsp" href="#" aria-label="WhatsApp" rel="noopener">WA</a>
+  </div>
+
+  <script>
+    // ===== CONFIG =====
+    const WHATSAPP_NUMBER = "+000000000000"; // <-- Cambiá esto (formato internacional, con +)
+    const BRAND = "teinvito.com";
+
+    function phoneDigits(n){
+      return String(n).replace(/\\D/g,'');
+    }
+    function waUrl(message){
+      const phone = phoneDigits(WHATSAPP_NUMBER);
+      return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+    }
+
+    // Topbar + CTA links
+    const msgQuick = `Hola! Quiero una invitación en ${BRAND}.`;
+    const navWsp = document.getElementById("navWsp");
+    const heroWsp = document.getElementById("heroWsp");
+    const floatWsp = document.getElementById("floatWsp");
+    [navWsp, heroWsp, floatWsp].forEach(a=>{
+      if(!a) return;
+      a.href = waUrl(msgQuick);
+      a.target = "_blank";
+    });
+
+    // Template cards scroll
+    document.querySelectorAll(".tpl").forEach(el=>{
+      el.addEventListener("click", ()=>{
+        const to = el.getAttribute("data-open") || "#contacto";
+        const target = document.querySelector(to);
+        if(target) target.scrollIntoView({behavior:"smooth", block:"start"});
+      });
+    });
+
+    // Lead form -> WhatsApp
+    const form = document.getElementById("leadForm");
+    form.addEventListener("submit", (e)=>{
+      e.preventDefault();
+
+      const v = (id)=> (document.getElementById(id).value || "").trim();
+
+      const payload = {
+        nombre: v("fName"),
+        tipo: v("fType"),
+        cumple: v("fChild"),
+        edad: v("fAge"),
+        fecha: v("fDate"),
+        horario: v("fTime"),
+        lugar: v("fPlace"),
+        maps: v("fMaps"),
+        notas: v("fNotes"),
+      };
+
+      const missing = [];
+      ["nombre","tipo","cumple","edad","fecha","horario","lugar"].forEach(k=>{
+        if(!payload[k]) missing.push(k);
+      });
+
+      if(missing.length){
+        alert("Faltan datos obligatorios: " + missing.join(", "));
+        return;
+      }
+
+      const text =
+`*PEDIDO — ${BRAND}*
+👤 Nombre: ${payload.nombre}
+🎯 Tipo: ${payload.tipo}
+
+🎂 Cumpleañero/a: ${payload.cumple}
+🔢 Edad: ${payload.edad}
+📅 Fecha: ${payload.fecha}
+⏰ Horario: ${payload.horario}
+📍 Lugar: ${payload.lugar}
+🗺️ Maps: ${payload.maps || "-"}
+📝 Notas: ${payload.notas || "-"}
+
+Fotos: (las envío por acá)`;
+
+      window.open(waUrl(text), "_blank");
+    });
+
+    // Year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // ===== 3D PARALLAX (ligero, sin libs) =====
+    const stage = document.getElementById("stage");
+    const stageInner = document.getElementById("stageInner");
+    const mainCard = document.getElementById("mainCard");
+    const heroTilt = document.getElementById("heroTilt");
+
+    function clamp(n,min,max){ return Math.max(min, Math.min(max,n)); }
+
+    function parallax(e, el, strength){
+      const r = el.getBoundingClientRect();
+      const cx = r.left + r.width/2;
+      const cy = r.top + r.height/2;
+      const dx = (e.clientX - cx) / (r.width/2);
+      const dy = (e.clientY - cy) / (r.height/2);
+      const rx = clamp(-dy * strength, -strength, strength);
+      const ry = clamp(dx * strength, -strength, strength);
+      return {rx, ry};
+    }
+
+    function onMove(e){
+      if(!stage || !stageInner || !mainCard || !heroTilt) return;
+
+      const p1 = parallax(e, stage, 10);
+      stageInner.style.transform = `rotateX(${p1.rx}deg) rotateY(${p1.ry}deg)`;
+
+      const p2 = parallax(e, heroTilt, 5);
+      heroTilt.style.transform = `rotateX(${p2.rx}deg) rotateY(${p2.ry}deg)`;
+
+      // micro wobble on main card
+      const p3 = parallax(e, stage, 6);
+      mainCard.style.transform = `translate(-50%,-50%) rotateX(${10 + p3.rx}deg) rotateY(${-16 + p3.ry}deg)`;
+    }
+
+    window.addEventListener("pointermove", onMove, {passive:true});
+    window.addEventListener("pointerleave", ()=>{
+      if(stageInner) stageInner.style.transform = "";
+      if(heroTilt) heroTilt.style.transform = "";
+      if(mainCard) mainCard.style.transform = "translate(-50%,-50%) rotateX(10deg) rotateY(-16deg)";
+    });
+
+  </script>
+</body>
+</html>
